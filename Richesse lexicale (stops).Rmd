@@ -1,0 +1,241 @@
+---
+title: "Richesse lexicale"
+author: "Mathilde"
+date: "2023-07-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+#Définition du chemin d'accès.
+
+```{r}
+setwd("~mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire")
+```
+
+#Chargement des stopwords
+
+```{r}
+fichier_stopwords <- "Stops_latin.txt"
+stops <- readLines(fichier_stopwords, warn = FALSE, encoding = "UTF-8")
+```
+
+#Installation des boîtes à outils nécessaires. 
+
+```{r}
+if(!require("tm")){
+  install.packages("tm")
+  library("tm")
+}
+if(!require("stringr")){
+  install.packages("stringr")
+  library("stringr")
+}
+```
+
+#Chargement du texte propre (déjà dépouillé des stopwords)
+
+```{r}
+Val_st <- readLines("/Users/mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire/Clearer/Val_1.txt")
+```
+
+# Tokenization
+```{r}
+Val_tokens <- unlist(strsplit(Val_st, " "))
+Val_total_tokens <- length(Val_tokens)
+Val_unique_words <- length(unique(Val_tokens))
+Val_st_token_type_ratio <- Val_unique_words / Val_total_tokens
+```
+
+#Afficher le ratio.
+
+```{r}
+cat("Token/Type Ratio pour l'Adversus Valentinianos (stopwords) :", Val_st_token_type_ratio, "\n")
+```
+
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Val_st_guiraud <- Val_unique_words / sqrt(Val_total_tokens)
+cat("Mesure de Guiraud pour l'Adversus Valentinianos (stopwords) :", Val_st_guiraud, "\n")
+```
+
+
+##De Pallio##
+
+#Chargement du texte propre (déjà dépouillé des stopwords)
+
+```{r}
+Pall_st <- readLines("/Users/mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire/Clearer/Pall_1.txt")
+```
+
+#Tokenisation du texte. 
+
+```{r}
+Pall_st_tokens <- unlist(strsplit(Pall_st, " "))
+Pall_st_total_tokens <- length(Pall_st_tokens)
+Pall_st_unique_words <- length(unique(Pall_st_tokens))
+Pall_st_ttr <- Pall_st_unique_words / Pall_st_total_tokens
+```
+
+
+```{r}
+cat("Token/type ratio pour le De Pallio (stopwords) :", Pall_st_ttr, "\n")
+```
+
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Pall_st_guiraud <- Pall_st_unique_words / sqrt(Pall_st_total_tokens)
+cat("Mesure de Guiraud pour le De Pallio :", Pall_st_guiraud, "\n")
+```
+
+##Ad Martyras##
+
+#Chargement du texte propre (déjà dépouillé des stopwords)
+
+```{r}
+Mart_st <- readLines("/Users/mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire/Clearer/Mart_1.txt")
+```
+
+#Tokenisation du texte. 
+
+```{r}
+Mart_st_tokens <- unlist(strsplit(Mart_st, " "))
+Mart_st_total_tokens <- length(Mart_st_tokens)
+Mart_st_unique_words <- length(unique(Mart_st_tokens))
+Mart_st_token_type_ratio <- Mart_st_unique_words / Mart_st_total_tokens
+```
+
+
+```{r}
+cat("Token/Type Ratio pour l'Ad martyras (stopwords) :", Mart_st_token_type_ratio, "\n")
+```
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Mart_st_guiraud <- Mart_st_unique_words / sqrt(Mart_st_total_tokens)
+cat("Mesure de Guiraud pour l'Ad martyras (stopwords) :", Mart_st_guiraud, "\n")
+```
+
+
+##De Idololatria##
+
+#Chargement du texte propre (déjà dépouillé des stopwords)
+
+```{r}
+Idol_st <- readLines("/Users/mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire/Clearer/Idol_1.txt")
+```
+
+#Tokenisation du texte. 
+
+```{r}
+Idol_st_tokens <- unlist(strsplit(Idol_st, " "))
+Idol_st_total_tokens <- length(Idol_st_tokens)
+Idol_st_unique_words <- length(unique(Idol_st_tokens))
+Idol_st_token_type_ratio <- Idol_st_unique_words / Idol_st_total_tokens
+```
+
+
+```{r}
+cat("Token/Type Ratio pour le De Idololatria (stopwords) :", Idol_st_token_type_ratio, "\n")
+```
+
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Idol_st_guiraud <- Idol_st_unique_words / sqrt(Idol_st_total_tokens)
+cat("Mesure de Guiraud pour le De Idololatria (stopwords) :", Idol_st_guiraud, "\n")
+```
+
+
+##De Cultu feminarum##
+
+Chargement du texte.
+```{r}
+Cult_st <- readLines("/Users/mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire/Clearer/Cult_1.txt")
+```
+
+
+#Tokenisation du texte. 
+
+```{r}
+Cult_st_tokens <- unlist(strsplit(Cult_st, " "))
+Cult_st_total_tokens <- length(Cult_st_tokens)
+Cult_st_unique_words <- length(unique(Cult_st_tokens))
+Cult_st_token_type_ratio <- Cult_st_unique_words / Cult_st_total_tokens
+```
+
+
+```{r}
+cat("Token/Type Ratio pour le De cultu feminarum (stopwords):", Cult_st_token_type_ratio, "\n")
+```
+
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Cult_st_guiraud <- Cult_st_unique_words / sqrt(Cult_st_total_tokens)
+cat("Mesure de Guiraud pour le De cultu feminarum :", Cult_st_guiraud, "\n")
+```
+
+
+###Visualisation des résultats###
+
+##Token/type ratio
+
+```{r}
+cat("Token/Type Ratio for 'Adversus Valentinianos':", Val_st_token_type_ratio, "\n")
+cat("Token/Type Ratio for 'De Pallio':", Pall_st_ttr, "\n")
+cat("Token/Type Ratio for 'Ad martyras' :", Mart_st_token_type_ratio, "\n")
+cat("Token/Type Ratio for 'De Idololatria' :", Idol_st_token_type_ratio, "\n")
+cat("Token/Type Ratio for 'De cultu feminarum' :", Cult_st_token_type_ratio, "\n")
+```
+
+```{r}
+# On renseigne le ratio token/type pour les cinq textes.
+token_type_ratios <- c(Val_st_token_type_ratio, Pall_st_ttr, Mart_st_token_type_ratio, Idol_st_token_type_ratio, Cult_st_token_type_ratio)
+texts <- c("Adversus Valentinianos", "De Pallio", "Ad martyras", "De Idololatria", "De cultu feminarum")
+
+# On trie les ratios par ordre croissant.
+sorted_indices <- order(token_type_ratios)
+sorted_ratios <- token_type_ratios[sorted_indices]
+sorted_texts <- texts[sorted_indices]
+
+# Création d'une bar plot.
+barplot(sorted_ratios, names.arg = sorted_texts, main = "Ratios Token/Type (sans stopwords)", xlab = "Texts", ylab = "Token/Type Ratio", col = "coral3", ylim = c(0,1))
+```
+
+##Index de Guiraud 
+
+```{r}
+print("Stopwords retirés")
+cat("Index de Guiraud pour l'Adversus Valentinianos :", Val_st_guiraud, "\n")
+cat("Index de Guiraud pour le De Pallio :", Pall_st_guiraud, "\n")
+cat("Index de Guiraud pour l'Ad martyras :", Mart_st_guiraud, "\n")
+cat("Index de Guiraud pour le De Idololatria' :", Idol_st_guiraud, "\n")
+cat("Index de Guiraud pour le De cultu feminarum' :", Cult_st_guiraud, "\n")
+```
+
+
+```{r}
+# On renseigne l'index de Guiraud pour les cinq textes.
+index_guiraud <- c(29.84673, 32.16592, 12.9385, 10.01259, 27.23968)
+texts <- c("Adversus Valentinianos", "De Pallio", "Ad martyras", "De Idololatria", "De cultu feminarum")
+
+# On trie les ratios par ordre croissant.
+sorted_indices <- order(index_guiraud)
+sorted_ratios <- index_guiraud[sorted_indices]
+sorted_texts <- texts[sorted_indices]
+
+# Création d'une bar plot.
+barplot(sorted_ratios, names.arg = sorted_texts, main = "Richesse lexicale (index de Guiraud) - sans stopwords", xlab = "Texts", ylab = "Token/Type Ratio", col = "honeydew3")
+```
+

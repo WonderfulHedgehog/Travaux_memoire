@@ -1,0 +1,65 @@
+---
+title: "Coup de balais"
+author: "Mathilde"
+date: "2023-07-13"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Définition de la session de travail
+
+```{r}
+setwd("~mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire")
+```
+
+Chargement des stopwords
+
+
+```{r}
+fichier_stopwords <- "Stops_latin.txt"
+stops <- readLines(fichier_stopwords, warn = FALSE, encoding = "UTF-8")
+```
+
+Installation des boîtes à outils nécessaires 
+
+
+```{r}
+if(!require("tm")){
+  install.packages("tm")
+  library("tm")
+}
+if(!require("stringr")){
+  install.packages("stringr")
+  library("stringr")
+}
+```
+
+Coups de balais ! 
+
+Etape 1
+```{r}
+tab_Cult <- read.csv("Lemma/cult.tsv", sep = "\t")
+
+chaîne_Cult <- ""
+```
+
+Etape 2
+```{r}
+for (word in tolower(tab_Cult$lemma)) {
+  if (!word %in% stops) {
+    chaîne_Cult <- paste(chaîne_Cult, word, sep=" ")
+  }
+}
+chaîne_Cult
+```
+
+
+Enregistrement dans un nouveau fichier
+
+```{r}
+chaîne_Cult <- write(chaîne_Cult, file = "Cult_1.txt")
+```
+
