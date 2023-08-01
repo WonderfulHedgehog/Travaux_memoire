@@ -1,0 +1,335 @@
+---
+title: "Richesse lexicale"
+author: "Mathilde"
+date: "2023-07-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+#Définition du chemin d'accès.
+
+```{r}
+setwd("~mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire")
+```
+
+#Installation des boîtes à outils nécessaires. 
+
+```{r}
+if(!require("tm")){
+  install.packages("tm")
+  library("tm")
+}
+if(!require("stringr")){
+  install.packages("stringr")
+  library("stringr")
+}
+```
+
+#Préparation des données
+
+Le texte a déjà été lemmatisé. Il faut charger le fichier .tsv et extraire les mots de la colonne "lemma" pour former une chaîne de caractères. 
+
+```{r}
+tab_Val <- read.csv("Lemma/Val.tsv", sep = "\t")
+Val <- paste(tab_Val$lemma, collapse = " ")
+Val <- as.character(Val)
+```
+
+
+# Préparation du texte.
+```{r}
+preprocess_Val <- function(text) {
+  text <- iconv(text, to = "UTF-8")
+  text <- str_replace_all(text, "[^[:alpha:]]", " ")
+  text <- str_replace_all(text, "[[:punct:]]", " ")
+  text <- str_to_lower(text)
+  text <- str_trim(text)
+  return(text)
+}
+
+preprocessed_Val <- preprocess_Val(Val)
+```
+
+
+
+# Tokenization
+```{r}
+Val_tokens <- unlist(strsplit(preprocessed_Val, " "))
+Val_total_tokens <- length(Val_tokens)
+Val_unique_words <- length(unique(Val_tokens))
+Val_token_type_ratio <- Val_unique_words / Val_total_tokens
+```
+
+
+#Afficher le ratio.
+
+```{r}
+cat("Token/Type Ratio for 'Adversus Valentinianos':", Val_token_type_ratio, "\n")
+```
+
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Val_guiraud <- Val_unique_words / sqrt(Val_total_tokens)
+cat("Mesure de Guiraud pour l'Adversus Valentinianos :", Val_guiraud, "\n")
+```
+
+
+
+##De Pallio##
+
+#Préparation des données
+
+Le texte a déjà été lemmatisé. Il faut charger le fichier .tsv et extraire les mots de la colonne "lemma" pour former une chaîne de caractères. 
+
+```{r}
+tab_Pall <- read.csv("Lemma/pallio.tsv", sep = "\t")
+Pall <- paste(tab_Pall$lemma, collapse = " ")
+Pall <- as.character(Pall)
+```
+
+#Préparation des données
+
+```{r}
+preprocess_Pall <- function(text) {
+  text <- iconv(text, to = "UTF-8")
+  text <- str_replace_all(text, "[^[:alpha:]]", " ")
+  text <- str_replace_all(text, "[[:punct:]]", " ")
+  text <- str_to_lower(text)
+  text <- str_trim(text)
+  return(text)
+}
+preprocessed_Pall <- preprocess_Pall(Pall)
+```
+
+#Tokenisation du texte. 
+
+```{r}
+Pall_tokens <- unlist(strsplit(preprocessed_Pall, " "))
+Pall_total_tokens <- length(Pall_tokens)
+Pall_unique_words <- length(unique(Pall_tokens))
+Pall_token_type_ratio <- Pall_unique_words / Pall_total_tokens
+```
+
+
+```{r}
+cat("Token/Type Ratio for 'De Pallio':", Pall_token_type_ratio, "\n")
+```
+
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Pall_guiraud <- Pall_unique_words / sqrt(Pall_total_tokens)
+cat("Mesure de Guiraud pour le De Pallio :", Pall_guiraud, "\n")
+```
+
+##Ad Martyras##
+
+```{r}
+tab_Mart <- read.csv("Lemma/mart.tsv", sep = "\t")
+Mart <- paste(tab_Mart$lemma, collapse = " ")
+Mart <- as.character(Mart)
+```
+
+#Préparation des données
+
+```{r}
+preprocess_Mart <- function(text) {
+  text <- iconv(text, to = "UTF-8")
+  text <- str_replace_all(text, "[^[:alpha:]]", " ")
+  text <- str_replace_all(text, "[[:punct:]]", " ")
+  text <- str_to_lower(text)
+  text <- str_trim(text)
+  return(text)
+}
+preprocessed_Mart <- preprocess_Mart(Mart)
+```
+
+#Tokenisation du texte. 
+
+```{r}
+Mart_tokens <- unlist(strsplit(preprocessed_Mart, " "))
+Mart_total_tokens <- length(Mart_tokens)
+Mart_unique_words <- length(unique(Mart_tokens))
+Mart_token_type_ratio <- Mart_unique_words / Mart_total_tokens
+```
+
+
+```{r}
+cat("Token/Type Ratio for 'Ad martyras' :", Mart_token_type_ratio, "\n")
+```
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Mart_guiraud <- Mart_unique_words / sqrt(Mart_total_tokens)
+cat("Mesure de Guiraud pour l'Ad martyras :", Mart_guiraud, "\n")
+```
+
+
+##De Idololatria##
+
+
+```{r}
+tab_Idol <- read.csv("Lemma/idol.tsv", sep = "\t")
+Idol <- paste(tab_Idol$lemma, collapse = " ")
+Idol <- as.character(Idol)
+```
+
+#Préparation des données
+
+```{r}
+preprocess_Idol <- function(text) {
+  text <- iconv(text, to = "UTF-8")
+  text <- str_replace_all(text, "[^[:alpha:]]", " ")
+  text <- str_replace_all(text, "[[:punct:]]", " ")
+  text <- str_to_lower(text)
+  text <- str_trim(text)
+  return(text)
+}
+preprocessed_Idol <- preprocess_Idol(Idol)
+```
+
+#Tokenisation du texte. 
+
+```{r}
+Idol_tokens <- unlist(strsplit(preprocessed_Idol, " "))
+Idol_total_tokens <- length(Idol_tokens)
+Idol_unique_words <- length(unique(Idol_tokens))
+Idol_token_type_ratio <- Idol_unique_words / Idol_total_tokens
+```
+
+
+```{r}
+cat("Token/Type Ratio for 'De Idololatria' :", Idol_token_type_ratio, "\n")
+```
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Idol_guiraud <- Idol_unique_words / sqrt(Idol_total_tokens)
+cat("Mesure de Guiraud pour le De Idololatria :", Idol_guiraud, "\n")
+```
+
+
+##De Cultu feminarum##
+
+
+```{r}
+tab_Cult <- read.csv("Lemma/cult.tsv", sep = "\t")
+Cult <- paste(tab_Cult$lemma, collapse = " ")
+Cult <- as.character(Cult)
+```
+
+#Préparation des données
+
+```{r}
+preprocess_Cult <- function(text) {
+  text <- iconv(text, to = "UTF-8")
+  text <- str_replace_all(text, "[^[:alpha:]]", " ")
+  text <- str_replace_all(text, "[[:punct:]]", " ")
+  text <- str_to_lower(text)
+  text <- str_trim(text)
+  return(text)
+}
+preprocessed_Cult <- preprocess_Cult(Cult)
+```
+
+#Tokenisation du texte. 
+
+```{r}
+Cult_tokens <- unlist(strsplit(preprocessed_Cult, " "))
+Cult_total_tokens <- length(Cult_tokens)
+Cult_unique_words <- length(unique(Cult_tokens))
+Cult_token_type_ratio <- Cult_unique_words / Cult_total_tokens
+```
+
+
+```{r}
+cat("Token/Type Ratio for 'De cultu feminarum' :", Cult_token_type_ratio, "\n")
+```
+#Utilisation de l'index de Guiraud 
+
+```{r}
+Cult_guiraud <- Cult_unique_words / sqrt(Cult_total_tokens)
+cat("Mesure de Guiraud pour le De cultu feminarum :", Cult_guiraud, "\n")
+```
+
+
+###Visualisation des résultats###
+
+##Token/type ratio
+
+```{r}
+cat("Token/Type Ratio for 'Adversus Valentinianos':", Val_token_type_ratio, "\n")
+cat("Token/Type Ratio for 'De Pallio':", Pall_token_type_ratio, "\n")
+cat("Token/Type Ratio for 'Ad martyras' :", Mart_token_type_ratio, "\n")
+cat("Token/Type Ratio for 'De Idololatria' :", Idol_token_type_ratio, "\n")
+cat("Token/Type Ratio for 'De cultu feminarum' :", Cult_token_type_ratio, "\n")
+```
+
+```{r}
+# On renseigne le ratio token/type pour les cinq textes.
+token_type_ratios <- c(0.2375912, 0.3731412, 0.344364, 0.1859202, 0.2397837)
+texts <- c("Adversus Valentinianos", "De Pallio", "Ad martyras", "De Idololatria", "De cultu feminarum")
+
+# On trie les ratios par ordre croissant.
+sorted_indices <- order(token_type_ratios)
+sorted_ratios <- token_type_ratios[sorted_indices]
+sorted_texts <- texts[sorted_indices]
+
+# Création d'une bar plot.
+barplot(sorted_ratios, names.arg = sorted_texts, main = "Ratios Token/Type (avec stopwords)", xlab = "Texts", ylab = "Token/Type Ratio", col = "coral")
+```
+
+```{r}
+# Assuming you have the token/type ratio values for all five texts
+token_type_ratios <- c(0.2375912, 0.3731412, 0.344364, 0.1859202, 0.2397837)
+texts <- c("Adversus Valentinianos", "De Pallio", "Ad martyras", "De Idololatria", "De cultu feminarum")
+
+# Create a line plot
+plot(token_type_ratios, type = "b", pch = 19, ylim = range(token_type_ratios), main = "Comparaison Token/Type Ratio", xlab = "Texts", ylab = "Token/Type Ratio")
+lines(token_type_ratios)
+axis(1, at = 1:length(texts), labels = texts, tick = FALSE)
+```
+
+##Index de Guiraud 
+
+```{r}
+cat("Index de Guiraud pour l'Adversus Valentinianos :", Val_guiraud, "\n")
+cat("Index de Guiraud pour le De Pallio :", Pall_guiraud, "\n")
+cat("Index de Guiraud pour l'Ad martyras :", Mart_guiraud, "\n")
+cat("Index de Guiraud pour le De Idololatria' :", Idol_guiraud, "\n")
+cat("Index de Guiraud pour le De cultu feminarum' :", Cult_guiraud, "\n")
+```
+
+
+```{r}
+# On renseigne le ratio token/type pour les cinq textes.
+index_guiraud <- c(21.54102, 24.66968, 15.14419, 17.65752, 19.56258)
+texts <- c("Adversus Valentinianos", "De Pallio", "Ad martyras", "De Idololatria", "De cultu feminarum")
+
+# On trie les ratios par ordre croissant.
+sorted_indices <- order(index_guiraud)
+sorted_ratios <- index_guiraud[sorted_indices]
+sorted_texts <- texts[sorted_indices]
+
+# Création d'une bar plot.
+barplot(sorted_ratios, names.arg = sorted_texts, main = "Richesse lexicale (index de Guiraud) - avec stopwords", xlab = "Texts", ylab = "Index de Guiraud", col = "honeydew2")
+```
+
+```{r}
+# Get the list of available colors
+all_colors <- colors()
+
+# Print the list of colors
+print(all_colors)
+```
+
