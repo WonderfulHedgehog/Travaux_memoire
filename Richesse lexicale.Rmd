@@ -9,12 +9,6 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
 #Définition du chemin d'accès.
 
 ```{r}
@@ -33,6 +27,7 @@ if(!require("stringr")){
   library("stringr")
 }
 ```
+##Aduersus Valentinianos##
 
 #Préparation des données
 
@@ -60,7 +55,6 @@ preprocessed_Val <- preprocess_Val(Val)
 ```
 
 
-
 # Tokenization
 ```{r}
 Val_tokens <- unlist(strsplit(preprocessed_Val, " "))
@@ -69,8 +63,7 @@ Val_unique_words <- length(unique(Val_tokens))
 Val_token_type_ratio <- Val_unique_words / Val_total_tokens
 ```
 
-
-#Afficher le ratio.
+#Affichage du ratio.
 
 ```{r}
 cat("Token/Type Ratio for 'Adversus Valentinianos':", Val_token_type_ratio, "\n")
@@ -82,7 +75,6 @@ cat("Token/Type Ratio for 'Adversus Valentinianos':", Val_token_type_ratio, "\n"
 Val_guiraud <- Val_unique_words / sqrt(Val_total_tokens)
 cat("Mesure de Guiraud pour l'Adversus Valentinianos :", Val_guiraud, "\n")
 ```
-
 
 
 ##De Pallio##
@@ -289,12 +281,8 @@ sorted_texts <- texts[sorted_indices]
 barplot(sorted_ratios, names.arg = sorted_texts, main = "Ratios Token/Type (avec stopwords)", xlab = "Texts", ylab = "Token/Type Ratio", col = "coral")
 ```
 
+# Autre visualisation : bar plot
 ```{r}
-# Assuming you have the token/type ratio values for all five texts
-token_type_ratios <- c(0.2375912, 0.3731412, 0.344364, 0.1859202, 0.2397837)
-texts <- c("Adversus Valentinianos", "De Pallio", "Ad martyras", "De Idololatria", "De cultu feminarum")
-
-# Create a line plot
 plot(token_type_ratios, type = "b", pch = 19, ylim = range(token_type_ratios), main = "Comparaison Token/Type Ratio", xlab = "Texts", ylab = "Token/Type Ratio")
 lines(token_type_ratios)
 axis(1, at = 1:length(texts), labels = texts, tick = FALSE)
@@ -302,6 +290,7 @@ axis(1, at = 1:length(texts), labels = texts, tick = FALSE)
 
 ##Index de Guiraud 
 
+# On récapitule les résultats.
 ```{r}
 cat("Index de Guiraud pour l'Adversus Valentinianos :", Val_guiraud, "\n")
 cat("Index de Guiraud pour le De Pallio :", Pall_guiraud, "\n")
@@ -310,9 +299,8 @@ cat("Index de Guiraud pour le De Idololatria' :", Idol_guiraud, "\n")
 cat("Index de Guiraud pour le De cultu feminarum' :", Cult_guiraud, "\n")
 ```
 
-
+# On renseigne le ratio token/type pour les cinq textes et on associe chacune des valeurs au texte correspondant. 
 ```{r}
-# On renseigne le ratio token/type pour les cinq textes.
 index_guiraud <- c(21.54102, 24.66968, 15.14419, 17.65752, 19.56258)
 texts <- c("Adversus Valentinianos", "De Pallio", "Ad martyras", "De Idololatria", "De cultu feminarum")
 
@@ -324,12 +312,3 @@ sorted_texts <- texts[sorted_indices]
 # Création d'une bar plot.
 barplot(sorted_ratios, names.arg = sorted_texts, main = "Richesse lexicale (index de Guiraud) - avec stopwords", xlab = "Texts", ylab = "Index de Guiraud", col = "honeydew2")
 ```
-
-```{r}
-# Get the list of available colors
-all_colors <- colors()
-
-# Print the list of colors
-print(all_colors)
-```
-
