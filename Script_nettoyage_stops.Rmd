@@ -9,13 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Définition de la session de travail
+#Définition de la session de travail
 
 ```{r}
 setwd("~mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire")
 ```
 
-Chargement des stopwords
+#Chargement des stopwords
 
 
 ```{r}
@@ -23,7 +23,7 @@ fichier_stopwords <- "Stops_latin.txt"
 stops <- readLines(fichier_stopwords, warn = FALSE, encoding = "UTF-8")
 ```
 
-Installation des boîtes à outils nécessaires 
+#Installation des boîtes à outils nécessaires 
 
 
 ```{r}
@@ -37,16 +37,16 @@ if(!require("stringr")){
 }
 ```
 
-Coups de balais ! 
+##Coups de balais ! 
 
-Etape 1
+#Transformation de la colonne lemma en chaîne de caractères et initiation d'une variable vide.
 ```{r}
 tab_Cult <- read.csv("Lemma/cult.tsv", sep = "\t")
 
 chaîne_Cult <- ""
 ```
 
-Etape 2
+#On ajoute à la variable vide tous les mots de la chaîne de caractères qui ne figurent pas dans la liste des stopwords. 
 ```{r}
 for (word in tolower(tab_Cult$lemma)) {
   if (!word %in% stops) {
@@ -56,8 +56,7 @@ for (word in tolower(tab_Cult$lemma)) {
 chaîne_Cult
 ```
 
-
-Enregistrement dans un nouveau fichier
+#Enregistrement de cette chaîne dans un nouveau fichier.
 
 ```{r}
 chaîne_Cult <- write(chaîne_Cult, file = "Cult_1.txt")
