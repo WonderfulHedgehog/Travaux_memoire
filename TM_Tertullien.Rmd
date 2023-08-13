@@ -17,58 +17,15 @@ knitr::opts_chunk$set(echo = TRUE)
 setwd("~mathildeschwoerer/Documents/Humanités Numériques/Textes_memoire")
 ```
 
-Le texte est déjà lemmatisé et structuré à l'intérieur d'un .csv. Pour retirer les stopwords, il sera transformé en chaîne de caractères. 
+1.2. On divise notre corpus en dix séquences (le corpus se compose d'une concaténation de textes déjà nettoyés et lemmatisés). 
 
 ```{r}
-df_Val <- read.csv("Lemma/val.tsv", sep="\t")
-#Vérification que le formatage est correct
-head(df_Val$lemma)
-#Création d'une chaîne de caractère vide qui contiendra à l'avenir tous les textes contenus dans df. 
-chaîne_de_caractères_Val <- ""
-#Laisser le contenu vide : il n'y a rien pour l'instant.
-```
-
-
-
- 1.3.1 Importation de la liste de _stopwords_
- 
-```{r}
-StopWords <- "Stops_latin.txt"
-Stops = read.csv(StopWords, header=FALSE, stringsAsFactors=FALSE)[,]
-```
-
-On crée une chaîne de caractère ne contenant que les mots qui ne sont pas des stopwords et on convertit le tout en minuscules. 
-
-```{r}
-for (word in tolower(df_Val$lemma)) {
-  if (!word %in% Stops) {
-    chaîne_de_caractères_Val <- paste(chaîne_de_caractères_Val, word, sep=" ")
-  }
-}
-chaîne_de_caractères_Val
-chaîne_de_caractères_Val<-write(chaîne_de_caractères_Val ,file = "Val_1.txt")
-```
-
- 1.4. Création d'une liste pour une approche _bag_of_words_
-
-On divise le texte en une dizaine de morceaux (10 est un chiffre arbitraire, on peut en mettre plus ou moins) et on met ces dix morceaux dans une liste qu'on peut par exemple baptiser Extraits. C'est ce qui permet l'approche _bag_of_words_.
-
-Approche _bag_of_words_ : idée que le monde peut être décrit au moyen d'un dictionnaire. Dans sa version la plus simple, un document particulier est représenté par l'histogramme des occurrences des mots le composant : pour un document donné, chaque mot se voit affecté le nombre de fois qu'il apparaît dans le document (source : Wikipédia).
-
-```{r}
-
-```
-
-
-
-```{r}
-chaîne_de_caractères_corpus1 <-readLines("Clearer/Corpus_2.txt")
+chaîne_de_caractères_corpus1 <-readLines("Clearer/Corpus_1.txt")
 Nb_sequences <- 10
 Extraits_corpus1<- strwrap(chaîne_de_caractères_corpus1, nchar(chaîne_de_caractères_corpus1) / Nb_sequences)
 #On peut afficher le contenu de chaque séquence :
 #Extraits_corpus1[1]
 ```
-
 
  1.5.Transformation en matrice vectorielle
 
@@ -228,7 +185,6 @@ topicsNumber_corpus1 <- FindTopicsNumber(
 
 #Affichage du résultat
 FindTopicsNumber_plot(topicsNumber_corpus1)
-#Lecture du graph : "“Griffiths” et “Deveaud” suivent un principe de maximisation alors que “CaoJuan” et “Arun” obéissent à un principe de minimisation. Je vous épargne les détails techniques, mais l’idée ici est d’identifier l’endroit où simultanément “Griffiths” et “Deveaud” se rejoignent le plus et où c’est également le cas pour “CaoJuan” et “Arun”. Tout est histoire de compromis, trouver l’endroit ou l’écart entre les courbes est minimal en haut et en bas !" (source : https://ouvrir.passages.cnrs.fr/wp-content/uploads/2019/07/rapp_topicmodel.html)
 ```
  
  
@@ -261,7 +217,7 @@ termsTopic_lda_gibbs_7_corpus1 <- as.data.frame(terms(lda_gibbs_7_corpus1,10))
 head(termsTopic_lda_gibbs_7_corpus1,11)
 ```
 
-Nous allons utiliser `lda_gibbs_4_PH_V` et construire une matrice avec les _β_ des tokens (pour les ɣ, et donc des probabilités par document, on aurait mis `matrix = "gamma"`). Chaque token est répété deux fois, avec une probabilité pour chaque _topic_:
+Nous allons utiliser `lda_gibbs_7_corpus1` et construire une matrice avec les _β_ des tokens. Chaque token est répété deux fois, avec une probabilité pour chaque _topic_:
 
 ```{r}
 topics_corpus1 <- tidy(lda_gibbs_7_corpus1, matrix = "beta")
@@ -273,7 +229,7 @@ topics_corpus1
  4.1 Récupération des mots
 
  4.1.1 Installation de la library "dplyr"
-Cette library facilite le traitement et la manipulation de données contenues dans une ou plusieurs tables en proposant une syntaxe sous forme de verbes.
+
 ```{r}
 if (!require("dplyr")){
    install.packages("dplyr")
